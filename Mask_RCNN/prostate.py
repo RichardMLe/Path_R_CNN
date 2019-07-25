@@ -82,9 +82,12 @@ class ProstateDataset(utils.Dataset):
         self.add_class("prostate", 2, "HG")
         self.add_class("prostate", 3, "BN")
         ## todo: change the target directory
+        #subset_id 代表其中子类的数量（也可能是图片数量），这边没有子类，所以传递0
+        #本程序中，他添加了一张图片进入。注意，这里面的annotation_file是mask
         for i in subset_id:
             if mode == -1:
                 image_id = str(i)
+                #zfill 方法：返回指定长度字符串，如果原字符长于指定长度，则返回原字符；反之，原字符左端补零
                 image_filename = image_id.zfill(4) + '.jpg'
                 annotation_filename = image_id.zfill(4) + '_instance.mat'
                 image_files_name = os.path.join(dataset_dir, 'tiles/' + image_filename)
