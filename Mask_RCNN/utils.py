@@ -271,6 +271,7 @@ class Dataset(object):
 
         TODO: class map is not supported yet. When done, it should handle mapping
               classes from different datasets to the same class ID.
+        此处将source和class对应起来，构建了source与class对应的链表，在self.source_class_ids内
         """
         def clean_name(name):
             """Returns a shorter version of object names for cleaner display."""
@@ -278,15 +279,17 @@ class Dataset(object):
 
         # Build (or rebuild) everything else from the info dicts.
         self.num_classes = len(self.class_info)
+        #np.arange(valure)返回np.array数组[0,1,...,valure]
         self.class_ids = np.arange(self.num_classes)
         self.class_names = [clean_name(c["name"]) for c in self.class_info]
         self.num_images = len(self.image_info)
         self._image_ids = np.arange(self.num_images)
-
+        #将class的source和id对应上，zip函数：将多个变量组合成一个
         self.class_from_source_map = {"{}.{}".format(info['source'], info['id']): id
                                       for info, id in zip(self.class_info, self.class_ids)}
 
         # Map sources to class_ids they support
+        #set() 函数创建一个无序不重复元素集，可进行关系测试，删除重复数据，还可以计算交集、差集、并集等
         self.sources = list(set([i['source'] for i in self.class_info]))
         self.source_class_ids = {}
         # Loop over datasets
