@@ -1873,6 +1873,9 @@ class MaskRCNN():
                 shape=[None, 4], name="input_gt_boxes", dtype=tf.float32)
             # Normalize coordinates
             h, w = K.shape(input_image)[1], K.shape(input_image)[2]
+            #stack 将矩阵增加一维
+            #cast 转换格式
+            #lambda将任意表达式封装为layers对象，输入x，输出x/image_scale
             image_scale = K.cast(K.stack([h, w, h, w], axis=0), tf.float32)
             gt_boxes = KL.Lambda(lambda x: x / image_scale)(input_gt_boxes)
             # 3. GT Masks (zero padded)
@@ -1898,7 +1901,7 @@ class MaskRCNN():
         
         # Build the shared convolutional layers.
         # Bottom-up Layers
-        # Returns a list of the last layers of each stage, 5 in total.
+         # Returns a list of the last layers of each stage, 5 in total.
         # Don't create the thead (stage 5), so we pick the 4th item in the list.
         _, C2, C3, C4, C5 = resnet_graph(input_image, "resnet101", stage5=True)
         # Top-down Layers
