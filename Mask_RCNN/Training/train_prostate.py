@@ -160,7 +160,9 @@ if __name__ == '__main__':
 #             learning_rate=config.LEARNING_RATE / 10,
 #             epochs= 75,
 #             layers='all')
-        
+        #此处与keras自带函数类似，将输入与输出处理成了input和output，但其中内容不同。
+        #input[batch_images, batch_image_meta, batch_rpn_match, batch_rpn_bbox,batch_gt_class_ids, batch_gt_boxes, batch_gt_masks,batch_rpn_rois(可能有）,batch_rois(可能有)]
+        #output[batch_mrcnn_class_ids, batch_mrcnn_bbox, batch_mrcnn_mask]
         model.train(dataset_train, dataset_val,
              learning_rate=config.LEARNING_RATE / 100,
              epochs= 120,
